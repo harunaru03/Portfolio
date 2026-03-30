@@ -1,0 +1,36 @@
+version: "2"
+
+linters:
+    enable:
+        - errcheck # エラーの戻り値を無視していないか
+        - govet # go vet と同等の静的解析
+        - staticcheck # 高精度な静的解析
+        - revive # golint の後継。スタイルチェック
+        - unused # 未使用のコード検出
+        - godot # コメントの末尾にピリオドがあるか
+
+    settings:
+        revive:
+            rules:
+                - name: exported
+                  arguments:
+                      - disableStutteringCheck # パッケージ名+型名の重複チェックを緩和
+
+    exclusions:
+        rules:
+            # テストファイルは errcheck を緩和
+            - path: _test\.go
+              linters:
+                  - errcheck
+
+formatters:
+    enable:
+        - goimports # import の整形・グルーピング
+
+    settings:
+        goimports:
+            local-prefixes:
+                - household # 内部パッケージを外部パッケージと分けて整形
+
+run:
+    timeout: 5m

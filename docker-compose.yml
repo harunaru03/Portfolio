@@ -1,0 +1,47 @@
+services:
+    # DataBase(PostgreSQL)
+    db:
+        image: postgres:15-alpine
+        container_name: household-db
+        environment:
+            POSTGRES_USER: householduser
+            POSTGRES_PASSWORD: P@ssW0rd?
+            POSTGRES_DB: household
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./db/init:/docker-entrypoint-initdb.d # 手元のSQLファイルを、コンテナ起動時の初期化用フォルダに紐付ける
+            - db-data:/var/lib/postgresql/data # DBの実データを、コンテナを消しても残る領域（Volume）に保存する
+
+    # Backend
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        container_name: household-backend
+        ports:
+            - "8080:8080"
+        environment:
+            - DB_HOST=db
+            - DB_PORT=5432
+            - DB_USER=householduser
+            - DB_PASSWORD=P@ssW0rd?
+            - DB_NAME=household
+        depends_on:
+            - db # 「db」コンテナが準備できてから「backend」を起動する(BEが起動時にDB接続を確保するため)
+        volumes:
+            - ./backend:/app
+
+    # Frontend
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        container_name: household-frontend
+        ports:
+            - "3000:80"
+        depends_on:
+            - backend # バックエンドAPIが立ち上がってからフロントを起動する(初期画面描画時に一覧取得APIを呼び出すため)
+
+volumes: # 共有するボリュームの定義
+    db-data:

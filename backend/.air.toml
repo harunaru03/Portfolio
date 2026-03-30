@@ -1,0 +1,41 @@
+root = "."
+test_dir = ""
+tmp_dir = "tmp"
+
+[build]
+bin = "./tmp/main"
+
+cmd = "go build -o ./tmp/main ./cmd/api/main.go"
+
+full_bin = "./tmp/main"
+
+# 監視する拡張子
+include_ext = ["go"]
+
+delay = 1000
+
+# ビルドエラー発生時に古いバイナリの実行を続ける
+step_on_error = true
+
+# 終了時にプロセスをキル
+send_interrupt = true
+
+[log]
+time = true
+
+[color]
+# 1. メインログ（通常の通知など）
+main = "white"
+
+# 2. ファイル監視
+watcher = "cyan"
+
+# 3. ビルド工程
+build = "yellow"
+
+# 4. 実行ログ
+runner = "green"
+
+[misc]
+# 終了時にtmpディレクトリをクリーンアップ
+clean_on_exit = true
