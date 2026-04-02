@@ -1,0 +1,25 @@
+@charset "utf-8";
+:root {
+    --space-md: 1rem; /* 16px */
+}
+
+html {
+    font-size: 100%;
+}
+
+body {
+    width: 100%;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* body */
+
+button {
+    position: absolute;
+    right: 10%;
+    bottom: 10%;
+    border-radius: 50%;
+}
