@@ -1,8 +1,4 @@
 @charset "utf-8";
-:root {
-    --space-md: 1rem; /* 16px */
-}
-
 html {
     font-size: 100%;
 }
