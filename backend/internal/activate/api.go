@@ -2,12 +2,12 @@ package activate
 
 import (
 	"household/internal/handler"
+	"household/internal/platform/appctx"
 
 	"github.com/gin-gonic/gin"
 )
 
 // ResolveAPI は各ドメインのルーティング解決を行います。
-func ResolveAPI(e *gin.Engine, h handler.ContextIF) {
-	// 家計簿ドメインのマウント
-	handler.MountHousehold(e, h)
+func ResolveAPI(e *gin.Engine, ctx appctx.AppCtx) {
+	handler.MountExpenses(e, ctx)
 }
