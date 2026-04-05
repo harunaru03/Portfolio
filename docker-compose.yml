@@ -39,9 +39,18 @@ services:
             dockerfile: Dockerfile
         container_name: household-frontend
         ports:
-            - "3000:80"
+            - "3000:3000"
+        volumes:
+            - ./frontend:/app
+            # node_modulesをローカルの空フォルダで上書きしないためのテクニック
+            - /app/node_modules
+        environment:
+            - VITE_API_URL=http://localhost:8080
         depends_on:
             - backend # バックエンドAPIが立ち上がってからフロントを起動する(初期画面描画時に一覧取得APIを呼び出すため)
 
 volumes: # 共有するボリュームの定義
     db-data:
+
+
+
