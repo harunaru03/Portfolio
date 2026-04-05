@@ -1,4 +1,4 @@
-FROM node:26-alpine
+FROM node:latest-alpine
 
 # OSレベルのパッケージを最新に更新して脆弱性を最小化
 RUN apk update && apk upgrade
