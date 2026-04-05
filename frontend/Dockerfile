@@ -1,4 +1,4 @@
-FROM node:latest-alpine
+FROM node:24-alpine
 
 # OSレベルのパッケージを最新に更新して脆弱性を最小化
 RUN apk update && apk upgrade
@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 3000
 
 # Viteを起動。--host 0.0.0.0 はコンテナ外からのアクセスに必須
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+CMD ["npm", "run", "dev"]
