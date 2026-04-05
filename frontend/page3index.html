@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>家計簿 3ページ目</title>
+        <meta name="description" content="ホーム">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="page3stylesheet.css">
+    </head>
+    <body>
+        <main>
+            <div class="container__box">
+                <div class="content__nav">
+                    <input type="radio" name="income_and_outgo" id="expense" checked>
+                    <label for="expense">支出</label>
+                    <input type="radio" name="income_and_outgo" id="income">
+                    <label for="income">収入</label>
+                </div>
+                <div class="content__item">
+                    <div class="content__list">
+                        <ul>
+                            <li class="money">&yen;0</li>
+                            <li class="date">日付</li>
+                            <li class="category">カテゴリー</li>
+                        </ul>
+                    </div>
+                    <button onclick="document.querySelector('.content__detail').showModal()" class="detail">詳細</button>
+                    <dialog class="content__detail">
+                        <ul>
+                            <li class="money">&yen;0</li>
+                            <li class="date">日付</li>
+                            <li class="category">カテゴリー</li>
+                            <li class="memo">メモ</li>
+                        </ul>
+                        <button onclick="document.querySelector('.content__detail').close()">閉じる</button>
+                    </dialog>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

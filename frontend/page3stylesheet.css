@@ -1,0 +1,83 @@
+@charset "utf-8";
+
+html {
+    font-size: 100%;
+}
+
+li {
+    list-style: none;
+}
+
+body { 
+    color: #1a1a1a; font-family: sans-serif;
+    margin: 0 18.75rem; /*300px */
+}
+
+.content__nav {
+    display: flex;
+    border-bottom: 1px solid #333;
+}
+
+.content__nav
+input {
+    display: none;
+}
+
+.content__nav
+label {
+    flex: 1;
+    text-align: center;
+    padding: .9375rem 0; /* 15px */
+    color: #888;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+  /* 選択された時のスタイル（オレンジの線） */
+#expense:checked ~ label[for="expense"],
+#income:checked ~ label[for="income"] {
+    color: #f39c12;
+    border-bottom: 3px solid #f39c12;
+}
+
+.content__item {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.content__list
+ul {
+    display: flex;
+    font-size: 1.875rem; /* 30px */
+}
+
+.content__list
+ul
+li {
+    padding-right: 3.125rem; /* 50px */
+}
+
+.detail {
+    font-size: 1.875rem; /* 30px */
+    width: 8.125rem; /* 130px */
+    height: 5rem; /* 80px */
+    margin: auto 0;
+}
+
+.content__detail
+ul {
+    font-size: 1.25rem;
+}
+
+.content__detail::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ポップアップ本体のデザイン */
+.content__detail {
+    border: none;
+    border-radius: 8px;
+    padding: 1.25rem; /* 20px */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
