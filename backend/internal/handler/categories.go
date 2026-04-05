@@ -5,6 +5,8 @@ import (
 
 	"household/internal/platform/appctx"
 	"household/internal/platform/response"
+	categoriesSvc "household/internal/service/categories"
+	categoriesRepo "household/internal/repository/categories"
 )
 
 // CategoriesHandler はカテゴリハンドラーの構造体です。
@@ -15,9 +17,9 @@ type CategoriesHandler struct {
 // MountCategories はカテゴリAPIのエンドポイントを定義します。
 func MountCategories(e *gin.Engine, ctx appctx.AppCtx) {
 	ch := &CategoriesHandler{
-		svc: &categoriesSvc.CategoriesService{
+		svc: &categoriesSvc.CategoryService{
 			Context: ctx,
-			Repo:    &categoriesRepoCategoriesRepository{Context: ctx},
+			Repo:    &categoriesRepo.CategoryRepository{Context: ctx},
 		},
 	}
 
