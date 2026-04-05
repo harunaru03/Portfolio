@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>家計簿 2ページ目</title>
+        <meta name="description" content="ホーム">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="page2styleshsst.css">
+    </head>
+    <body>
+        <main>
+            <div class="container__box">
+                <div class="content__nav">
+                    <input type="radio" name="income_and_outgo" id="expense" checked>
+                    <label for="expense">支出</label>
+                    <input type="radio" name="income_and_outgo" id="income">
+                    <label for="income">収入</label>
+                </div>
+                <div class="content__item">
+                    <div class="inner__item">
+                        <input type="text" placeholder="&yen;0" class="amount-display">
+                    </div>
+                    <div class="inner__item">
+                        <label for="category" class="inner-item__menu">カテゴリー</label>
+                            <select size="1" name="category" id="category">
+                                <option value="syokuhi">食費</option>
+                                <option value="koutuuhi">交通費</option>
+                                <option value="seikatuhi">生活費</option>
+                                <option value="nitiyouhinn">日用品</option>
+                                <option value="kousaihi">交際費</option>
+                            </select>
+                    </div>
+                    <div class="inner__item">
+                        <label for="memo" class="inner-item__menu">メモ</label>
+                        <textarea name="memo" id="memo" class="inner-item__menu"></textarea>
+                    </div>
+                    <div class="inner__item">
+                        <label for="date" class="inner-item__menu">日付</label>
+                        <input type="date" class="inner-item__menu">
+                    </div>
+                    <div>
+                        <button type="submit" class="save-btn">保存</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
