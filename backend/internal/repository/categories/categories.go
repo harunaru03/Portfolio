@@ -20,7 +20,7 @@ func (c *CategoryRepository) FindAll() ([]domain.Category, error) {
 	err := c.Context.DB().Reader().
 		Select("id, name").
 		Table("categories").
-		Where("deleted_at IS NOT NULL").
+		Where("deleted_at IS NULL").
 		Find(&res)
 
 	if err != nil {
