@@ -18,8 +18,8 @@ type ExpenseHandler struct {
 func MountExpenses(e *gin.Engine, ctx appctx.AppCtx) {
 	eh := &ExpenseHandler{
 		svc: &expenseSvc.ExpenseService{
-			Repo: &expenseRepo.ExpenseRepository{Context: ctx},
-			Context:  ctx,
+			Repo:    &expenseRepo.ExpenseRepository{Context: ctx},
+			Context: ctx,
 		},
 	}
 

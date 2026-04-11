@@ -9,7 +9,7 @@ CREATE TABLE categories (
 );
 
 -- 家計簿トランザクションテーブル
-CREATE TABLE households (
+CREATE TABLE expenses (
     id               SERIAL PRIMARY KEY,
     title            VARCHAR(100) NOT NULL,
     amount           NUMERIC(12, 2) NOT NULL, -- 小数点以下2桁まで。お金の計算に必須
@@ -42,8 +42,8 @@ CREATE TABLE incomes (
 
 -- インデックス（検索を爆速にする）
 -- 日付範囲での集計（「先月の支出」など）用
-CREATE INDEX idx_households_transaction_date ON households(transaction_date);
+CREATE INDEX idx_expenses_transaction_date ON expenses(transaction_date);
 -- カテゴリごとの集計用
-CREATE INDEX idx_households_category_id ON households(category_id);
+CREATE INDEX idx_expenses_category_id ON expenses(category_id);
 -- 入金日での検索・ソートを高速化
 CREATE INDEX idx_incomes_transaction_date ON incomes(transaction_date);

@@ -5,8 +5,8 @@ import (
 
 	"household/internal/platform/appctx"
 	"household/internal/platform/response"
-	categoriesSvc "household/internal/service/categories"
 	categoriesRepo "household/internal/repository/categories"
+	categoriesSvc "household/internal/service/categories"
 )
 
 // CategoriesHandler はカテゴリハンドラーの構造体です。

@@ -21,10 +21,10 @@ func (c *CategoryRepository) FindAll() ([]domain.Category, error) {
 		Select("id, name").
 		Table("categories").
 		Where("deleted_at IS NULL").
-		Find(&res)
+		Find(&res).Error
 
 	if err != nil {
-		xerrors.Errorf("FindAll: %w", err)
+		return nil, xerrors.Errorf("FindAll: %w", err)
 	}
 
 	return res, nil

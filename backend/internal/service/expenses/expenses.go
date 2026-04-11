@@ -14,8 +14,8 @@ type Service interface {
 
 // ExpenseService は Service を実装する構造体です。
 type ExpenseService struct {
-	Context  appctx.AppCtx
-	Repo domain.Repository
+	Context appctx.AppCtx
+	Repo    domain.Repository
 }
 
 // GetAll は支出一覧を取得します。
