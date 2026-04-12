@@ -27,7 +27,7 @@ body {
     display: none;
 }
 
-/* 一旦画面から支出と収入のコンテンツを画面から消す */
+/* それぞれのボタンを押した時のために一旦画面から支出と収入のコンテンツを画面から消す */
 .content__item--expense,
 .content__item--income {
     display: none;
