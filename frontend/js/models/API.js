@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     setupFormEvents();    // フォームの送信イベント設定
 });
 
+/**
+ * バックエンドAPIと通信し、カテゴリーの一覧を取得して画面のプルダウンを更新する
+ * @async
+ * @returns {Promise<void>} 戻り値なし（非同期でDOM更新までを実行）
+ */
 async function fetchCategories() {
     try {
         const response = await fetch('http://localhost:8080/api/v1/categories');
@@ -21,6 +26,12 @@ async function fetchCategories() {
     }
 }
 
+/**
+ * 受け取ったカテゴリーのリストを使って、指定されたセレクトボックス（プルダウン）の選択肢を書き換える
+ * @param {string} selector - 更新対象となるセレクトボックスのCSSセレクタ（例: '.content__item--expense .category'）
+ * @param {Array<{ID: number, Name: string}>} categoryList - APIから取得したカテゴリーオブジェクトの配列
+ * @returns {void}
+ */
 function updateSelectElement(selector, categoryList) {
     const select = document.querySelector(selector);
     
@@ -37,6 +48,10 @@ function updateSelectElement(selector, categoryList) {
     });
 }
 
+/**
+ * 支出・収入の各フォームに対して、送信（保存ボタンクリックやエンターキー押下）時のイベントリスナーを設定する
+ * @returns {void}
+ */
 function setupFormEvents() {
     // 支出フォームの設定
     const expenseForm = document.getElementById('content__item--expense-form');
