@@ -4,4 +4,5 @@ package categories
 type Category struct {
 	ID   int64
 	Name string
+	Type string // 'expense' or 'income'
 }

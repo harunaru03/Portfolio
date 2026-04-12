@@ -18,7 +18,7 @@ func (c *CategoryRepository) FindAll() ([]domain.Category, error) {
 
 	// データ取得
 	err := c.Context.DB().Reader().
-		Select("id, name").
+		Select("id, name, type").
 		Table("categories").
 		Where("deleted_at IS NULL").
 		Find(&res).Error
