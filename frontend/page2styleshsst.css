@@ -23,14 +23,30 @@ body {
 }
 
 /* main */
+.content__tab--radio {
+    display: none;
+}
+
+/* 一旦画面から支出と収入のコンテンツを画面から消す */
+.content__item--expense,
+.content__item--income {
+    display: none;
+    margin-top: var(--space-sm); /* 10px */
+}
+
+/* 支出のボタンが押されたらコンテンツを表示 */
+#expense:checked ~ .content__item--expense {
+    display: block;
+}
+
+/* 収入のボタンが押されたらコンテンツを表示 */
+#income:checked ~ .content__item--income {
+    display: block;
+}
+
 .content__nav {
     display: flex;
     border-bottom: 1px solid #333;
-}
-
-.content__nav
-input {
-    display: none;
 }
 
 .content__nav
@@ -45,14 +61,13 @@ label {
 }
 
   /* 選択された時のスタイル（オレンジの線） */
-#expense:checked ~ label[for="expense"],
-#income:checked ~ label[for="income"] {
-    color: #f39c12;
-    border-bottom: 3px solid #f39c12;
-}
-
-.content__item {
-    margin-top: var(--space-sm); /* 10px */
+#expense:checked ~ .content__nav
+label[for="expense"],
+#income:checked ~ .content__nav
+label[for="income"] {
+    color: white;
+    background-color: #f39c12;
+    font-weight: bold;
 }
 
 .amount-display {
@@ -61,7 +76,7 @@ label {
     padding: 1.25rem;
 }
 
-.inner-item__menu, #category {
+.inner-item__menu, .category {
     font-size: 1.875rem;
     margin-top: var(--space-sm); /* 10px */
 }
@@ -84,3 +99,4 @@ label {
     position: relative;
     top: .3125rem;
 }
+

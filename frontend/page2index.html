@@ -10,19 +10,20 @@
     <body>
         <main>
             <div class="container__box">
+                <input type="radio" name="income_and_outgo" id="expense" class="content__tab--radio" checked>
+                <input type="radio" name="income_and_outgo" id="income" class="content__tab--radio">
                 <div class="content__nav">
-                    <input type="radio" name="income_and_outgo" id="expense" checked>
                     <label for="expense">支出</label>
-                    <input type="radio" name="income_and_outgo" id="income">
                     <label for="income">収入</label>
                 </div>
-                <div class="content__item">
+                <!-- 支出用のコンテンツ -->
+                <div class="content__item--expense">
                     <div class="inner__item">
                         <input type="text" placeholder="&yen;0" class="amount-display">
                     </div>
                     <div class="inner__item">
                         <label for="category" class="inner-item__menu">カテゴリー</label>
-                            <select size="1" name="category" id="category">
+                            <select size="1" name="category" class="category">
                                 <option value="syokuhi">食費</option>
                                 <option value="koutuuhi">交通費</option>
                                 <option value="seikatuhi">生活費</option>
@@ -32,7 +33,31 @@
                     </div>
                     <div class="inner__item">
                         <label for="memo" class="inner-item__menu">メモ</label>
-                        <textarea name="memo" id="memo" class="inner-item__menu"></textarea>
+                        <textarea name="memo" class="inner-item__menu"></textarea>
+                    </div>
+                    <div class="inner__item">
+                        <label for="date" class="inner-item__menu">日付</label>
+                        <input type="date" class="inner-item__menu">
+                    </div>
+                    <div>
+                        <button type="submit" class="save-btn">保存</button>
+                    </div>
+                </div>
+                <!-- 収入用のコンテンツ -->
+                <div class="content__item--income">
+                    <div class="inner__item">
+                        <input type="text" placeholder="&yen;0" class="amount-display">
+                    </div>
+                    <div class="inner__item">
+                        <label for="category" class="inner-item__menu">カテゴリー</label>
+                            <select size="1" name="category" class="category">
+                                <option value="syokuhi">給料</option>
+                                <option value="koutuuhi">臨時収入</option>
+                            </select>
+                    </div>
+                    <div class="inner__item">
+                        <label for="memo" class="inner-item__menu">メモ</label>
+                        <textarea name="memo" class="inner-item__menu"></textarea>
                     </div>
                     <div class="inner__item">
                         <label for="date" class="inner-item__menu">日付</label>
@@ -44,5 +69,6 @@
                 </div>
             </div>
         </main>
+        <script src="js/models/API.js"></script>
     </body>
 </html>
