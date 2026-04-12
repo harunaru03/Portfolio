@@ -49,8 +49,7 @@ body {
     border-bottom: 1px solid #333;
 }
 
-.content__nav
-label {
+.content__nav label {
     flex: 1;
     text-align: center;
     padding: 15px 0;
@@ -60,11 +59,9 @@ label {
     font-weight: bold;
 }
 
-  /* 選択された時のスタイル（オレンジの線） */
-#expense:checked ~ .content__nav
-label[for="expense"],
-#income:checked ~ .content__nav
-label[for="income"] {
+  /* 選択された時のスタイル */
+#expense:checked ~ .content__nav label[for="expense"],
+#income:checked ~ .content__nav label[for="income"] {
     color: white;
     background-color: #f39c12;
     font-weight: bold;

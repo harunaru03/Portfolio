@@ -1,47 +1,58 @@
-// ページが読み込まれたらAPIを取得しにいく
-document.addEventListener('DOMContentLoaded', fetchCategories);
+document.addEventListener('DOMContentLoaded', () => {
+    fetchCategories();    // カテゴリの取得と表示
+    setupFormEvents();    // フォームの送信イベント設定
+});
 
-// APIからカテゴリーデータを取得する
 async function fetchCategories() {
     try {
-        // 実際のバックエンドのURLを入れる
-        const response = await fetch('');
+        const response = await fetch('http://localhost:8080/api/v1/categories');
         
-        // エラーがないか確認
         if (!response.ok) {
             throw new Error(`エラーが発生しました: ${response.status}`);
         }
 
-        // データをJSON形式に変換
         const data = await response.json();
         
-        // 2. 取得したデータを使って、支出と収入のプルダウンを書き換える
-        updateSelectElement('.content__item--expense .category', data.expense);
-        updateSelectElement('.content__item--income .category', data.income);
+        // 支出のプルダウンを書き換える
+        updateSelectElement('.content__item--expense .category', data);
 
     } catch (error) {
         console.error('カテゴリーの取得に失敗しました:', error);
     }
 }
 
-// 3. プルダウンの選択肢（optionタグ）を作り直す
 function updateSelectElement(selector, categoryList) {
-    // 画面の中から対象の select タグを見つける
     const select = document.querySelector(selector);
-    if (!select) return;
+    
+    // データがない場合や対象が見つからない場合は処理を止める
+    if (!select || !categoryList) return;
 
-    // 現在HTMLに直接書かれている <option> を一旦すべて消す
     select.innerHTML = '';
 
-    // APIから受け取ったリストの数だけ <option> を作って追加していく
     categoryList.forEach(category => {
-        // 新しい <option> タグを作る
         const option = document.createElement('option');
-        
         option.value = category.ID;
-        option.textContent = category.name;
-        
-        // select タグの中に追加
+        option.textContent = category.Name;
         select.appendChild(option);
     });
+}
+
+function setupFormEvents() {
+    // 支出フォームの設定
+    const expenseForm = document.getElementById('content__item--expense-form');
+    if (expenseForm) {
+        expenseForm.addEventListener('submit', (e) => {
+            e.preventDefault(); 
+            console.log('支出の保存ボタンが押されました！');
+        });
+    }
+
+    // 収入フォームの設定
+    const incomeForm = document.querySelector('.content__item--income-form');
+    if (incomeForm) {
+        incomeForm.addEventListener('submit', (e) => {
+            e.preventDefault(); 
+            console.log('収入の保存ボタンが押されました！');
+        });
+    }
 }
