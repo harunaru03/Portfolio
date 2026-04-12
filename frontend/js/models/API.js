@@ -10,16 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 async function fetchCategories() {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/categories');
+        const response = await fetch('/api/v1/categories');
         
         if (!response.ok) {
             throw new Error(`エラーが発生しました: ${response.status}`);
         }
 
         const data = await response.json();
+        console.log(data);
+        
         
         // 支出のプルダウンを書き換える
-        updateSelectElement('.content__item--expense .category', data);
+        updateSelectElement('.content__item--expense .category', data.data);
 
     } catch (error) {
         console.error('カテゴリーの取得に失敗しました:', error);
