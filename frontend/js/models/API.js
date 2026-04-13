@@ -1,3 +1,5 @@
+const API_BASE_URL = 'http://localhost:8080';
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchCategories();    // カテゴリの取得と表示
     setupFormEvents();    // フォームの送信イベント設定
@@ -10,14 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 async function fetchCategories() {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/categories');
+        const response = await fetch(`${API_BASE_URL}/api/v1/categories`);
 
         if (!response.ok) {
             throw new Error(`エラーが発生しました: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log('取得した生データ:', data);
+        console.log('取得したデータ:', data);
 
         // APIからの返り値が { data: [...] } か [...] か両方に対応する
         const categories = data.data ? data.data : data;

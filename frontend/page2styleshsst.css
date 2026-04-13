@@ -111,3 +111,14 @@ body {
         transform: translateY(0); /* 元の位置に戻る */
     }
 }
+
+/* レスポンシブ対応(画面が狭くなった時のルール) */
+@media screen and (max-width: 768px) {
+    body {
+        margin: 0 1rem; 
+    }
+    
+    .amount-display, .inner-item__menu, .category {
+        font-size: 1.2rem;
+    }
+}
