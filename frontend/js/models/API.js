@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 async function fetchCategories() {
     try {
-            const response = await fetch('http://localhost:8080/api/v1/categories');
-        
+        const response = await fetch('http://localhost:8080/api/v1/categories');
+
         if (!response.ok) {
             throw new Error(`エラーが発生しました: ${response.status}`);
         }
@@ -21,10 +21,10 @@ async function fetchCategories() {
 
         // APIからの返り値が { data: [...] } か [...] か両方に対応する
         const categories = data.data ? data.data : data;
-        
+
         // 💡 filter() を使って振り分ける
-        const expenseCategories = categories.filter(category => category.Type === 'expense');
-        const incomeCategories  = categories.filter(category => category.Type === 'income');
+        const expenseCategories = categories.filter(category => category.type === 'expense');
+        const incomeCategories = categories.filter(category => category.type === 'income');
 
         // デバッグ用：振り分けられたか確認するログ
         console.log('支出として認識された数:', expenseCategories.length);
@@ -47,7 +47,7 @@ async function fetchCategories() {
  */
 function updateSelectElement(selector, categoryList) {
     const select = document.querySelector(selector);
-    
+
     // データがない場合や対象が見つからない場合は処理を止める
     if (!select || !categoryList) return;
 
@@ -70,7 +70,7 @@ function setupFormEvents() {
     const expenseForm = document.getElementById('content__item--expense-form');
     if (expenseForm) {
         expenseForm.addEventListener('submit', (e) => {
-            e.preventDefault(); 
+            e.preventDefault();
             console.log('支出の保存ボタンが押されました！');
         });
     }
@@ -79,7 +79,7 @@ function setupFormEvents() {
     const incomeForm = document.querySelector('.content__item--income-form');
     if (incomeForm) {
         incomeForm.addEventListener('submit', (e) => {
-            e.preventDefault(); 
+            e.preventDefault();
             console.log('収入の保存ボタンが押されました！');
         });
     }
