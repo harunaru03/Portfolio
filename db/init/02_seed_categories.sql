@@ -14,4 +14,4 @@ INSERT INTO categories (name, type) VALUES
     ('臨時収入',	'income'),
     ('その他',		'expense'),
     ('その他',		'income')
-ON CONFLICT (name) DO NOTHING;
+ON CONFLICT (name, type) DO NOTHING;
