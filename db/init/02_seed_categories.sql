@@ -11,7 +11,7 @@ INSERT INTO categories (name, type) VALUES
     ('通信費',		'expense'),
     ('給与',		'income'),
     ('副業',		'income'),
-    ('臨時収入'		'income'),
+    ('臨時収入',	'income'),
     ('その他',		'expense'),
     ('その他',		'income')
 ON CONFLICT (name) DO NOTHING;
