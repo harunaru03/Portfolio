@@ -1,5 +1,3 @@
-const API_BASE_URL = 'http://localhost:8080';
-
 document.addEventListener('DOMContentLoaded', () => {
     fetchCategories();    // カテゴリの取得と表示
     setupFormEvents();    // フォームの送信イベント設定
@@ -12,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 async function fetchCategories() {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/v1/categories`);
+        const response = await fetch(`/api/v1/categories`);
 
         if (!response.ok) {
             throw new Error(`エラーが発生しました: ${response.status}`);
@@ -27,10 +25,6 @@ async function fetchCategories() {
         // 💡 filter() を使って振り分ける
         const expenseCategories = categories.filter(category => category.Type === 'expense');
         const incomeCategories = categories.filter(category => category.Type === 'income');
-
-        // デバッグ用：振り分けられたか確認するログ
-        console.log('支出として認識された数:', expenseCategories.length);
-        console.log('収入として認識された数:', incomeCategories.length);
 
         // 振り分けた結果をそれぞれ別のプルダウンに書き換える
         updateSelectElement('.content__item--expense .category', expenseCategories);
