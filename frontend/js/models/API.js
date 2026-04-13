@@ -23,8 +23,8 @@ async function fetchCategories() {
         const categories = data.data ? data.data : data;
 
         // 💡 filter() を使って振り分ける
-        const expenseCategories = categories.filter(category => category.type === 'expense');
-        const incomeCategories = categories.filter(category => category.type === 'income');
+        const expenseCategories = categories.filter(category => category.Type === 'expense');
+        const incomeCategories = categories.filter(category => category.Type === 'income');
 
         // デバッグ用：振り分けられたか確認するログ
         console.log('支出として認識された数:', expenseCategories.length);
