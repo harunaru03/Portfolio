@@ -2,11 +2,13 @@
 -- 将来的にアイコンURLや色の設定を増やせるよう、独立させておきます
 CREATE TABLE categories (
     id         SERIAL PRIMARY KEY,
-    name       VARCHAR(50)  NOT NULL UNIQUE,                      -- 「食費」「日用品」など（重複禁止）
+    name       VARCHAR(50)  NOT NULL,                             -- 「食費」「日用品」など
     type       VARCHAR(10)  NOT NULL CHECK (type IN ('expense', 'income')), -- 支出 or 収入
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP WITH TIME ZONE                           -- GORMの論理削除用
+    deleted_at TIMESTAMP WITH TIME ZONE,                          -- GORMの論理削除用
+
+    CONSTRAINT uq_categories_name_type UNIQUE (name, type)        -- 同名でもタイプが異なれば登録可
 );
 
 -- 家計簿トランザクションテーブル（支出・収入を統合）
