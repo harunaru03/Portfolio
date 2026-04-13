@@ -10,18 +10,29 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 async function fetchCategories() {
     try {
-        const response = await fetch('/api/v1/categories');
+            const response = await fetch('http://localhost:8080/api/v1/categories');
         
         if (!response.ok) {
             throw new Error(`エラーが発生しました: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log(data);
+        console.log('取得した生データ:', data);
+
+        // APIからの返り値が { data: [...] } か [...] か両方に対応する
+        const categories = data.data ? data.data : data;
         
-        
-        // 支出のプルダウンを書き換える
-        updateSelectElement('.content__item--expense .category', data.data);
+        // 💡 filter() を使って振り分ける
+        const expenseCategories = categories.filter(category => category.Type === 'expense');
+        const incomeCategories  = categories.filter(category => category.Type === 'income');
+
+        // デバッグ用：振り分けられたか確認するログ
+        console.log('支出として認識された数:', expenseCategories.length);
+        console.log('収入として認識された数:', incomeCategories.length);
+
+        // 振り分けた結果をそれぞれ別のプルダウンに書き換える
+        updateSelectElement('.content__item--expense .category', expenseCategories);
+        updateSelectElement('.content__item--income .category', incomeCategories);
 
     } catch (error) {
         console.error('カテゴリーの取得に失敗しました:', error);
