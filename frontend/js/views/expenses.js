@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <title>家計簿 2ページ目</title>
-        <meta name="description" content="2ページ目">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="page2styleshsst.css">
-    </head>
-    <body>
-        <main>
+export const View = {
+    renderHome: () => {
+        return `
             <div class="container__box">
                 <input type="radio" name="income_and_outgo" id="expense" class="content__tab--radio" checked>
                 <input type="radio" name="income_and_outgo" id="income" class="content__tab--radio">
@@ -16,8 +8,13 @@
                     <label for="expense">支出</label>
                     <label for="income">収入</label>
                 </div>
-                <!-- 支出用のコンテンツ -->
-                <div class="content__item--expense">
+                ${View.renderExpenses()}
+                ${View.renderIncome()}
+            </div>
+        `;
+    },
+    renderExpenses: () => {
+        return `<div class="content__item--expense">
                     <form id="content__item--expense-form">
                         <div class="inner__item">
                             <input type="text" placeholder="&yen;0" class="amount-display">
@@ -40,9 +37,10 @@
                             <button type="submit" class="save-btn">保存</button>
                         </div>
                     </form>
-                </div>
-                <!-- 収入用のコンテンツ -->
-                <div class="content__item--income">
+                </div>`;
+    },
+    renderIncome: () => {
+        return `<div class="content__item--income">
                     <form class="content__item--income-form">
                         <div class="inner__item">
                             <input type="text" placeholder="&yen;0" class="amount-display">
@@ -65,9 +63,6 @@
                             <button type="submit" class="save-btn">保存</button>
                         </div>
                     </form>
-                </div>
-            </div>
-        </main>
-        <script src="js/models/API.js"></script>
-    </body>
-</html>
+                </div>`;
+    }
+};

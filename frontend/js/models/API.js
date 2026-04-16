@@ -1,14 +1,9 @@
-document.addEventListener('DOMContentLoaded', () => {
-    fetchCategories();    // カテゴリの取得と表示
-    setupFormEvents();    // フォームの送信イベント設定
-});
-
 /**
  * バックエンドAPIと通信し、カテゴリーの一覧を取得して画面のプルダウンを更新する
  * @async
  * @returns {Promise<void>} 戻り値なし（非同期でDOM更新までを実行）
  */
-async function fetchCategories() {
+export async function fetchCategories() {
     try {
         const response = await fetch(`/api/v1/categories`);
 
@@ -61,7 +56,7 @@ function updateSelectElement(selector, categoryList) {
  * 支出・収入の各フォームに対して、送信（保存ボタンクリックやエンターキー押下）時のイベントリスナーを設定する
  * @returns {void}
  */
-function setupFormEvents() {
+export function setupFormEvents() {
     // 支出フォームの設定
     const expenseForm = document.getElementById('content__item--expense-form');
     if (expenseForm) {
