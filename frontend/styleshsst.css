@@ -1,6 +1,7 @@
 @charset "utf-8";
 
 /* 共通 */
+
 :root {
     --space-ssm: .625rem; /* 10px */
     --space-sm: .9375rem; /* 15px */
@@ -20,6 +21,18 @@ img {
     height: 6.25rem;
 }
 
+/* アニメーションの「動き」を定義する */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(var(--space-ssm)); /* 少し下からスタート 10px */ 
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* 元の位置に戻る */
+    }
+}
+
 /* body */
 
 body { 
@@ -30,6 +43,12 @@ body {
 }
 
 /* ホーム画面 */
+
+.container__btn {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .content__floating-btn {
     
     border-radius: 50%;
@@ -42,10 +61,7 @@ body {
     transform: scale(1.1);
 }
 
-.container__btn {
-    display: flex;
-    justify-content: flex-end;
-}
+/* 収支入力画面 */
 
 .container__btn, .container__box {
     max-width: 37.5rem; /* 600px */
@@ -56,13 +72,23 @@ body {
     box-shadow: 0 .25rem var(--space-sm) rgba(0,0,0,0.1); /* 4px 15px */
 }
 
-.inner__item {
-    display: flex;
-    justify-content: center;
-}
-
 .content__tab--radio {
     display: none;
+}
+
+.content__nav {
+    display: flex;
+    border-bottom: .0625rem solid #333; /* 1px */
+}
+
+.content__nav label {
+    flex: 1;
+    text-align: center;
+    padding: var(--space-sm) 0; /* 15px */
+    color: #888;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
 }
 
 /* それぞれのボタンを押した時のために一旦画面から支出と収入のコンテンツを画面から消す */
@@ -83,23 +109,6 @@ body {
     display: block;
 }
 
-
-
-.content__nav {
-    display: flex;
-    border-bottom: .0625rem solid #333; /* 1px */
-}
-
-.content__nav label {
-    flex: 1;
-    text-align: center;
-    padding: var(--space-sm) 0; /* 15px */
-    color: #888;
-    cursor: pointer;
-    transition: 0.3s;
-    font-weight: bold;
-}
-
   /* 選択された時のスタイル */
 #expense:checked ~ .content__nav label[for="expense"],
 #income:checked ~ .content__nav label[for="income"] {
@@ -108,15 +117,20 @@ body {
     font-weight: bold;
 }
 
-.amount-display {
-    text-align: right;
-    font-size: 1.875rem;
-    padding: 1.25rem;
+.inner__item {
+    display: flex;
+    justify-content: center;
 }
 
 .inner-item__menu, .category {
     font-size: 1.875rem;
     margin-top: var(--space-ssm); /* 10px */
+}
+
+.amount-display {
+    text-align: right;
+    font-size: 1.875rem;
+    padding: 1.25rem;
 }
 
 .save-btn {
@@ -138,18 +152,6 @@ body {
     top: .3125rem;
 }
 
-/* アニメーションの「動き」を定義する */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(var(--space-ssm)); /* 少し下からスタート 10px */ 
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0); /* 元の位置に戻る */
-    }
-}
-
 /* レスポンシブ対応(画面が狭くなった時のルール) */
 @media screen and (max-width: 48rem) { /* 768px */
     body {
@@ -159,4 +161,16 @@ body {
     .amount-display, .inner-item__menu, .category {
         font-size: 1.2rem;
     }
+}
+
+.error-msg {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: var(--space-sm);
+    border-radius: .5rem;
+    margin: var(--space-md) auto;
+    max-width: 37.5rem; /* 600px */
+    text-align: center;
+    border: .0625rem solid #fecaca; /* 1px */
+    animation: fadeIn 0.3s ease-out;
 }
