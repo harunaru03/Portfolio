@@ -1,4 +1,4 @@
-import { View } from './views/expenses.js';
+import { View } from './views/input_screen.js';
 import { getCategories } from './models/API.js';
 
 const app = document.getElementById('app');
@@ -7,21 +7,17 @@ const app = document.getElementById('app');
  * メインのルーティング・制御関数（Controller）
  */
 async function navigate() {
-    // 1. 各Viewパーツを組み合わせて描画
     app.innerHTML = View.renderHome();
     
     try {
-        // 2. Modelからデータを取得
         const categories = await getCategories();
         
-        // 3. Viewにデータを渡して表示内容を更新（ModelはDOMを知らない）
         View.updateCategories('.content__item--expense .category', 
             categories.filter(c => c.Type === 'expense'));
             
         View.updateCategories('.content__item--income .category', 
             categories.filter(c => c.Type === 'income'));
             
-        // 4. フォームのイベント設定
         setupEventListeners();
 
     } catch (err) {
@@ -36,8 +32,7 @@ async function navigate() {
 
 /**
  * フォームのイベントリスナー設定
- * 本来的にはView内にイベントのバインディングを持たせるのが理想的ですが、
- * 今回はControllerレイヤーで簡易的に管理します。
+ * 小規模のアプリなので一つのファイルを見ればどの画面で、何をしているかという流れが一目で分かる方が開発スピードが上がるため簡易実装にする
  */
 function setupEventListeners() {
     const expenseForm = document.getElementById('content__item--expense-form');

@@ -80,7 +80,7 @@ export const View = {
     },
 
     /**
-     * 指定されたセレクトボックスにカテゴリーを流し込む (Viewの責務)
+     * 指定されたセレクトボックスにカテゴリーを流し込む
      * @param {string} selector 
      * @param {Array} categories 
      */

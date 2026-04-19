@@ -6,6 +6,7 @@
     --space-ssm: .625rem; /* 10px */
     --space-sm: .9375rem; /* 15px */
     --space-md: 1.25rem; /* 20px */
+    --text-color: white;
 }
 
 html {
@@ -29,6 +30,7 @@ li {
 }
 
 /* body */
+
 body { 
     color: #1a1a1a;
     font-family: sans-serif;
@@ -55,7 +57,7 @@ body {
     transform: scale(1.1);
 }
 
-.content__img--pencil {
+.content__img--btn {
     max-width: 100%;
     height: 6.25rem; /* 100 */
 }
@@ -111,7 +113,7 @@ body {
   /* 選択された時のスタイル */
 #expense:checked ~ .content__nav label[for="expense"],
 #income:checked ~ .content__nav label[for="income"] {
-    color: white;
+    color: var(--text-color); /* white */
     background-color: #f39c12;
     font-weight: bold;
 }
@@ -137,7 +139,7 @@ body {
     margin: var(--space-md) auto; /* 20px */
     display: block;
     background: #e67e22;
-    color: white;
+    color: var(--text-color); /* white */
     border: none;
     padding: var(--space-sm); /* 15px */
     border-radius: .5rem; /* 8px */
@@ -151,17 +153,6 @@ body {
     top: .3125rem;
 }
 
-/* レスポンシブ対応(画面が狭くなった時のルール) */
-@media screen and (max-width: 48rem) { /* 768px */
-    body {
-        margin: 0 1rem; 
-    }
-    
-    .amount-display, .inner-item__menu, .category {
-        font-size: 1.2rem;
-    }
-}
-
 .error-msg {
     background-color: #fee2e2;
     color: #b91c1c;
@@ -172,4 +163,15 @@ body {
     text-align: center;
     border: .0625rem solid #fecaca; /* 1px */
     animation: fadeIn 0.3s ease-out;
+}
+
+/* レスポンシブ対応(画面が狭くなった時のルール) */
+@media screen and (max-width: 48rem) { /* 768px */
+    body {
+        margin: 0 1rem; 
+    }
+    
+    .amount-display, .inner-item__menu, .category {
+        font-size: 1.2rem;
+    }
 }
