@@ -3,7 +3,7 @@ package handler
 import (
 	"household/internal/platform/appctx"
 	"household/internal/platform/response"
-	expenseRepo "household/internal/repository/expenses"
+	expenseRepo "household/internal/repository/transactions"
 	expenseSvc "household/internal/service/expenses"
 
 	"github.com/gin-gonic/gin"
@@ -14,21 +14,21 @@ type ExpenseHandler struct {
 	svc expenseSvc.Service
 }
 
-// MountExpenses は支出APIのエンドポイントを定義します。
-func MountExpenses(e *gin.Engine, ctx appctx.AppCtx) {
+// MountTransactions は支出APIのエンドポイントを定義します。
+func MountTransactions(e *gin.Engine, ctx appctx.AppCtx) {
 	eh := &ExpenseHandler{
-		svc: &expenseSvc.ExpenseService{
+		svc: &Transactionsvc.Transactionservice{
 			Repo:    &expenseRepo.ExpenseRepository{Context: ctx},
 			Context: ctx,
 		},
 	}
 
-	e.GET("/api/v1/expenses", eh.GetExpenses)
-	e.POST("/api/v1/expenses", eh.CreateExpense)
+	e.GET("/api/v1/Transactions", eh.GetTransactions)
+	e.POST("/api/v1/Transactions", eh.CreateTransactions)
 }
 
-// GetExpenses は支出一覧取得APIのハンドラーです。
-func (h *ExpenseHandler) GetExpenses(c *gin.Context) {
+// GetTransactions は支出一覧取得APIのハンドラーです。
+func (h *ExpenseHandler) GetTransactions(c *gin.Context) {
 	data, err := h.svc.GetAll()
 	if err != nil {
 		response.InternalServerError(c)
