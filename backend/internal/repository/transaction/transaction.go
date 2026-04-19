@@ -1,8 +1,7 @@
-package expenses
+package transaction
 
 import (
 	"fmt"
-	"time"
 
 	domain "household/internal/domain/transaction"
 	"household/internal/platform/appctx"
@@ -21,10 +20,6 @@ func (t *TransactionRepository) FindAll() ([]domain.Transaction, error) {
 
 // Create は収支情報を登録します。
 func (t *TransactionRepository) Create(transaction domain.Transaction) (*domain.Transaction, error) {
-	now := time.Now().UTC()
-	transaction.CreatedAt = now
-	transaction.UpdatedAt = now
-
 	err := t.Context.DB().Writer().
 		Create(&transaction).Error
 	if err != nil {

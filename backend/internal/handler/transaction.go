@@ -64,7 +64,7 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 
 	date, err := time.Parse("2006-01-02", req.TransactionDate)
 	if err != nil {
-		response.BadRequestWithMessage(c, "日付は本日以前を選択してください。")
+		response.BadRequestWithMessage(c, "日付の形式が正しくありません（YYYY-MM-DD）。")
 		return
 	}
 
@@ -88,6 +88,11 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 		// カテゴリ存在チェックエラー
 		if errors.Is(err, TransactionSvc.ErrCategoryNotFound) {
 			response.BadRequestWithMessage(c, "存在するカテゴリを選択してください。")
+			return
+		}
+		// カテゴリtypeとトランザクションtypeの不一致エラー
+		if errors.Is(err, TransactionSvc.ErrCategoryTypeMismatch) {
+			response.BadRequestWithMessage(c, "カテゴリの種別（支出/収入）と一致するカテゴリを選択してください。")
 			return
 		}
 		response.InternalServerError(c)

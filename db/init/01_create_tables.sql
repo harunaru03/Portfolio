@@ -15,7 +15,7 @@ CREATE TABLE categories (
 CREATE TABLE transactions (
     id               SERIAL PRIMARY KEY,
     title            VARCHAR(100) NOT NULL,
-    amount           INTEGER NOT NULL,                            -- 整数のみ。金額に小数は不要
+    amount           BIGINT NOT NULL,                            -- 整数のみ。金額に小数は不要
     type             VARCHAR(10)  NOT NULL CHECK (type IN ('expense', 'income')), -- 支出 or 収入
     category_id      INTEGER NOT NULL,
     transaction_date DATE NOT NULL,                               -- 時分秒を含まない「決済日」

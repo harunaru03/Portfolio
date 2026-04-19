@@ -3,6 +3,8 @@ package transaction
 import (
 	"errors"
 
+	"gorm.io/gorm"
+
 	categoryDomain "household/internal/domain/category"
 	domain "household/internal/domain/transaction"
 	"household/internal/platform/appctx"
@@ -11,6 +13,9 @@ import (
 
 // ErrCategoryNotFound はカテゴリが存在しない場合のエラーです。
 var ErrCategoryNotFound = errors.New("category not found")
+
+// ErrCategoryTypeMismatch はカテゴリのtypeと収支データのtypeが一致しない場合のエラーです。
+var ErrCategoryTypeMismatch = errors.New("category type mismatch")
 
 // Service は支出に関するビジネスロジックを定義するインターフェースです。
 type Service interface {
@@ -42,8 +47,21 @@ func (e *TransactionService) GetAll() ([]domain.Transaction, error) {
 // Create は支出を登録します。
 func (e *TransactionService) Create(t domain.Transaction) (*domain.Transaction, error) {
 	// カテゴリ存在チェック
-	if _, err := e.CategoryRepo.FindByID(t.CategoryID); err != nil {
-		return nil, ErrCategoryNotFound
+	category, err := e.CategoryRepo.FindByID(t.CategoryID)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrCategoryNotFound
+		}
+		e.Context.Log().Error(log.Args{
+			Message:    "カテゴリ取得に失敗しました。",
+			StackTrace: err.Error(),
+		})
+		return nil, err
+	}
+
+	// カテゴリtypeとトランザクションtypeの整合性チェック
+	if category.Type != t.Type {
+		return nil, ErrCategoryTypeMismatch
 	}
 
 	result, err := e.Repo.Create(t)
