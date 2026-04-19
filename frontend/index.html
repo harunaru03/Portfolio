@@ -2,17 +2,19 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8">
-        <title>家計簿 ホーム</title>
-        <meta name="description" content="ホーム">
+        <title>家計簿アプリ</title>
+        <meta name="description" content="家計簿アプリ">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="page1stylesheet.css">
+        <link rel="stylesheet" href="/styleshsst.css">
     </head>
     <body>
-        <main>
-            <button type="button">
-                <a href="./page2index.html">test</a>
-                    <img src="鉛筆.png" alt="鉛筆">
-            </button>
-        </main>
+        <div id="app">
+            <div class="container__btn">
+                <button onclick="navigate('home')" class="content__floating-btn">
+                    <img src="鉛筆.png" alt="入力" class="content__btn--input">
+                </button>
+            </div>
+        </div>
+        <script src="/js/app.js" type="module"></script>
     </body>
 </html>
