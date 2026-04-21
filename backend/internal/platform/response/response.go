@@ -47,6 +47,11 @@ func BadRequest(c *gin.Context) {
 	sendError(c, http.StatusBadRequest, "入力内容に不備があります。確認して再度送信してください。")
 }
 
+// BadRequestWithMessage は 400: カスタムメッセージ付き入力エラーを返します。
+func BadRequestWithMessage(c *gin.Context, message string) {
+	sendError(c, http.StatusBadRequest, message)
+}
+
 // NotFound は 404: リソース不在を返します。
 func NotFound(c *gin.Context) {
 	sendError(c, http.StatusNotFound, "指定されたリソースが見つかりませんでした。")

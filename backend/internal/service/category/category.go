@@ -1,7 +1,7 @@
 package categories
 
 import (
-	domain "household/internal/domain/categories"
+	domain "household/internal/domain/category"
 	"household/internal/platform/appctx"
 	"household/internal/platform/log"
 )
