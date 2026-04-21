@@ -4,7 +4,6 @@ go 1.26.1
 
 require (
 	github.com/gin-gonic/gin v1.12.0
-	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.31.1
 )

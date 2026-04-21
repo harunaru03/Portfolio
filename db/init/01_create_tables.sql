@@ -15,11 +15,10 @@ CREATE TABLE categories (
 CREATE TABLE transactions (
     id               SERIAL PRIMARY KEY,
     title            VARCHAR(100) NOT NULL,
-    amount           NUMERIC(12, 2) NOT NULL,                     -- 小数点以下2桁まで。お金の計算に必須
+    amount           BIGINT NOT NULL,                            -- 整数のみ。金額に小数は不要
     type             VARCHAR(10)  NOT NULL CHECK (type IN ('expense', 'income')), -- 支出 or 収入
     category_id      INTEGER NOT NULL,
     transaction_date DATE NOT NULL,                               -- 時分秒を含まない「決済日」
-    payment_method   VARCHAR(50),                                 -- 支払い方法（現金、クレジットカードなど）
     memo             TEXT,
     created_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
