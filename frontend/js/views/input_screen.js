@@ -25,12 +25,15 @@ export const View = {
             <div class="content__item--expense">
                 <form id="content__item--expense-form">
                     <div class="inner__item">
+                        <input type="text" name="title" placeholder="タイトル（例: ランチ）" class="amount-display" required>
+                    </div>
+                    <div class="inner__item">
                         <input type="number" name="amount" placeholder="&yen;0" class="amount-display" required>
                     </div>
                     <div class="inner__item">
                         <label for="category" class="inner-item__menu">カテゴリー</label>
-                            <select size="1" name="category" class="category">
-                                <option value="" disabled selected>読み込み中...</option>
+                            <select size="1" name="category" class="category" required>
+                                <option value="" disabled selected>選択してください</option>
                             </select>
                     </div>
                     <div class="inner__item">
@@ -56,12 +59,15 @@ export const View = {
             <div class="content__item--income">
                 <form class="content__item--income-form">
                     <div class="inner__item">
+                        <input type="text" name="title" placeholder="タイトル（例: 4月分給与）" class="amount-display" required>
+                    </div>
+                    <div class="inner__item">
                         <input type="number" name="amount" placeholder="&yen;0" class="amount-display" required>
                     </div>
                     <div class="inner__item">
                         <label for="category" class="inner-item__menu">カテゴリー</label>
-                            <select size="1" name="category" class="category">
-                                <option value="" disabled selected>読み込み中...</option>
+                            <select size="1" name="category" class="category" required>
+                                <option value="" disabled selected>選択してください</option>
                             </select>
                     </div>
                     <div class="inner__item">
@@ -81,15 +87,14 @@ export const View = {
 
     /**
      * 指定されたセレクトボックスにカテゴリーを流し込む
-     * @param {string} selector 
-     * @param {Array} categories 
      */
     updateCategories: (selector, categories) => {
         const select = document.querySelector(selector);
         if (!select || !categories) return;
 
-        select.innerHTML = categories
-            .map(c => `<option value="${c.id}">${c.name}</option>`)
-            .join('');
+        select.innerHTML = `
+            <option value="" disabled selected>選択してください</option>
+            ${categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+        `;
     }
 };
