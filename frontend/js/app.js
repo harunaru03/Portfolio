@@ -4,54 +4,87 @@ import { getCategories, sendInput } from './models/API.js';
 const app = document.getElementById('app');
 
 /**
- * フォームの送信処理を担当
+ * 画面内に通知メッセージ（成功・エラー）を表示する
+ * @param {HTMLElement} form - メッセージを表示する対象のフォーム要素
+ * @param {string} message - 表示するテキスト
+ * @param {boolean} isError - エラー表示（赤色）にするかどうか
+ */
+function showFeedback(form, message, isError = false) {
+    const feedbackArea = form.querySelector('.form-feedback');
+    if (!feedbackArea) return;
+
+    feedbackArea.textContent = message;
+    feedbackArea.className = `form-feedback ${isError ? 'form-feedback--error' : 'form-feedback--success'}`;
+
+    // 5秒後に自動的にメッセージを消去して画面をスッキリさせる
+    setTimeout(() => {
+        feedbackArea.textContent = '';
+        feedbackArea.className = 'form-feedback';
+    }, 5000);
+}
+
+/**
+ * @param {Event} e
+ * @param {string} type
  */
 async function handleFormSubmit(e, type) {
-    e.preventDefault();
+    e.preventDefault(); // 画面のリロードを防ぐ
+    
     const form = e.target;
     const submitBtn = form.querySelector('button[type="submit"]');
     const formData = new FormData(form);
 
-    // 1. 未来日のバリデーション（フロントエンド側）
+    // 【バリデーション】未来日の入力をフロントエンドで事前に防ぐ
     const selectedDate = new Date(formData.get('date'));
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // 時間をリセットして比較
+    today.setHours(0, 0, 0, 0); // 今日を判定するために時間の情報を消す
 
     if (selectedDate > today) {
-        alert('本日以前の日付を選択してください。');
+        showFeedback(form, '本日以前の日付を選択してください。', true);
         return;
     }
 
+    // バックエンドAPIが期待するデータ形式（JSON）にまとめる
     const data = {
         title: formData.get('title'),
         amount: Number(formData.get('amount')),
         category_id: Number(formData.get('category')),
         memo: formData.get('memo'),
-        transaction_date: formData.get('date'),
+        transaction_date: formData.get('date'), // key名をバックエンド側に合わせる
         type: type
     };
 
     try {
-        // 2. 二重送信防止：ボタンを無効化
+        // 【二重送信防止】通信が終わるまでボタンを無効化する
         submitBtn.disabled = true;
         
+        // Modelを呼び出してサーバーにデータを送る
         await sendInput(data);
-        alert('保存が完了しました！');
-        form.reset();
+        
+        // 成功時のフィードバック
+        showFeedback(form, '保存が完了しました！');
+        form.reset(); // 入力欄をまっさらに戻す
+        
     } catch (error) {
-        alert('保存に失敗しました。再度お試しください。');
+        // タイムアウトエラー（AbortController）とそれ以外のエラーを判別する
+        if (error.name === 'AbortError') {
+            showFeedback(form, '通信がタイムアウトしました。再度お試しください。', true);
+        } else {
+            showFeedback(form, '保存に失敗しました。再度お試しください。', true);
+        }
     } finally {
-        // 処理完了後にボタンを再有効化
+        // 成功・失敗に関わらず、最後にボタンをまた押せる状態に戻す
         submitBtn.disabled = false;
     }
 }
 
 /**
- * イベントの初期化（Event Delegation）
- * 見た目を変えずにメモリ効率を上げるため、親要素でイベントを監視します
+ * イベントリスナーの初期設定（Event Delegation）
+ * 画面遷移のたびに登録し直さなくていいように、一番外側の#app要素でイベントを待ち受ける
  */
 function initEvents() {
     app.addEventListener('submit', (e) => {
+        // どのフォームから送信されたかに応じて処理を分岐
         if (e.target.id === 'content__item--expense-form') {
             handleFormSubmit(e, 'expense');
         } else if (e.target.classList.contains('content__item--income-form')) {
@@ -61,31 +94,34 @@ function initEvents() {
 }
 
 /**
- * メインのルーティング・制御関数（Controller）
+ * 画面のページ遷移を担当する
  */
 async function navigate() {
+    // 画面の見た目（HTML）をViewから取得して反映
     app.innerHTML = View.renderHome();
     
     try {
+        // モデルからカテゴリー一覧を取得
         const categories = await getCategories();
         
-        // 支出カテゴリーの反映
+        // 取得したデータを「支出」用と「収入」用に振り分けてセレクトボックスに反映
         View.updateCategories('.content__item--expense .category', 
             categories.filter(c => c.type === 'expense'));
             
-        // 収入カテゴリーの反映
         View.updateCategories('.content__item--income .category', 
             categories.filter(c => c.type === 'income'));
 
     } catch (err) {
-        console.error('データの読み込みに失敗しました:', err);
+        console.error('データの初期読み込みエラー:', err);
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-msg';
-        errorDiv.textContent = 'データの読み込みに失敗しました。再度お試しください。';
+        errorDiv.textContent = 'データの読み込みに失敗しました。画面を更新してください。';
         app.appendChild(errorDiv);
     }
 }
 
-// 起動時の初期化
+// アプリ起動時に一度だけイベント設定を走らせる
 initEvents();
+
+// pencilボタンなどからの呼び出しに対応するためグローバルに公開
 window.navigate = navigate;
