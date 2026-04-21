@@ -24,3 +24,33 @@ export async function getCategories() {
         throw error; // エラーは上位（Controller）でキャッチできるように再送
     }
 }
+
+/**
+ * 入力された家計簿データをバックエンドに送信して保存する（Model）
+ * @async
+ * @param {Object} data
+ * @returns {Promise<Object>}
+ */
+export async function sendInput(data) {
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+
+    try {
+        const response = await fetch(`${baseUrl}/transactions`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error('保存に失敗しました');
+        }
+
+        return await response.json();
+
+    } catch (error) {
+        console.error('通信エラー:', error);
+        throw error;
+    }
+}

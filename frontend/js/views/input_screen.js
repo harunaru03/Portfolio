@@ -25,7 +25,7 @@ export const View = {
             <div class="content__item--expense">
                 <form id="content__item--expense-form">
                     <div class="inner__item">
-                        <input type="text" placeholder="&yen;0" class="amount-display">
+                        <input type="number" name="amount" placeholder="&yen;0" class="amount-display" required>
                     </div>
                     <div class="inner__item">
                         <label for="category" class="inner-item__menu">カテゴリー</label>
@@ -39,7 +39,7 @@ export const View = {
                     </div>
                     <div class="inner__item">
                         <label for="date" class="inner-item__menu">日付</label>
-                        <input type="date" class="inner-item__menu">
+                        <input type="date" name="date" class="inner-item__menu" required>
                     </div>
                     <div>
                         <button type="submit" class="save-btn">保存</button>
@@ -56,7 +56,7 @@ export const View = {
             <div class="content__item--income">
                 <form class="content__item--income-form">
                     <div class="inner__item">
-                        <input type="text" placeholder="&yen;0" class="amount-display">
+                        <input type="number" name="amount" placeholder="&yen;0" class="amount-display" required>
                     </div>
                     <div class="inner__item">
                         <label for="category" class="inner-item__menu">カテゴリー</label>
@@ -70,7 +70,7 @@ export const View = {
                     </div>
                     <div class="inner__item">
                         <label for="date" class="inner-item__menu">日付</label>
-                        <input type="date" class="inner-item__menu">
+                        <input type="date" name="date" class="inner-item__menu" required>
                     </div>
                     <div>
                         <button type="submit" class="save-btn">保存</button>
@@ -89,7 +89,7 @@ export const View = {
         if (!select || !categories) return;
 
         select.innerHTML = categories
-            .map(c => `<option value="${c.ID}">${c.Name}</option>`)
+            .map(c => `<option value="${c.id}">${c.name}</option>`)
             .join('');
     }
 };

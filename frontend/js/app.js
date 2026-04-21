@@ -1,5 +1,5 @@
 import { View } from './views/input_screen.js';
-import { getCategories } from './models/API.js';
+import { getCategories, sendInput } from './models/API.js';
 
 const app = document.getElementById('app');
 
@@ -22,7 +22,6 @@ async function navigate() {
 
     } catch (err) {
         console.error('アプリの初期化中にエラーが発生しました:', err);
-        // ユーザー向けのエラー表示を追加
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-msg';
         errorDiv.textContent = 'データの読み込みに失敗しました。ネットワーク状況を確認して再度お試しください。';
@@ -31,24 +30,44 @@ async function navigate() {
 }
 
 /**
+ * フォームの送信処理を担当
+ * @param {Event} e 
+ * @param {string} type - 'expense' または 'income'
+ */
+async function handleFormSubmit(e, type) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    const data = {
+        amount: Number(formData.get('amount')),
+        category_id: Number(formData.get('category')),
+        memo: formData.get('memo'),
+        date: formData.get('date'),
+        type: type
+    };
+
+    try {
+        await sendInput(data);
+        alert('保存が完了しました！');
+        form.reset();
+    } catch (error) {
+        alert('保存に失敗しました。再度お試しください。');
+    }
+}
+
+/**
  * フォームのイベントリスナー設定
- * 小規模のアプリなので一つのファイルを見ればどの画面で、何をしているかという流れが一目で分かる方が開発スピードが上がるため簡易実装にする
  */
 function setupEventListeners() {
     const expenseForm = document.getElementById('content__item--expense-form');
     if (expenseForm) {
-        expenseForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            console.log('支出の保存ボタンが押されました！');
-        });
+        expenseForm.addEventListener('submit', (e) => handleFormSubmit(e, 'expense'));
     }
 
     const incomeForm = document.querySelector('.content__item--income-form');
     if (incomeForm) {
-        incomeForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            console.log('収入の保存ボタンが押されました！');
-        });
+        incomeForm.addEventListener('submit', (e) => handleFormSubmit(e, 'income'));
     }
 }
 
