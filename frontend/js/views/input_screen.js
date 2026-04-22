@@ -106,6 +106,12 @@ export const View = {
         const select = document.querySelector(selector);
         if (!select || !categories) return;
 
+        // カテゴリーが1件もない場合の表示
+        if (categories.length === 0) {
+            select.innerHTML = '<option value="" disabled selected>カテゴリーが登録されていません</option>';
+            return;
+        }
+
         // 既存の選択肢をクリアして、新しいリストを作成
         select.innerHTML = `
             <option value="" disabled selected>選択してください</option>

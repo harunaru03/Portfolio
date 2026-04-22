@@ -21,8 +21,8 @@ export async function getCategories(timeout = 10000) {
         }
 
         const data = await response.json();
-        // APIのレスポンスが { data: [...] } の場合と、直接配列 [...] の場合の両方に対応
-        return data.data ? data.data : data;
+        // dataがnullの場合や、data.dataが存在しない場合でも、必ず配列（最悪[]）を返す
+        return data?.data ?? data ?? [];
 
     } finally {
         // 通信が終わったらタイマーを解除（メモリリーク防止）
