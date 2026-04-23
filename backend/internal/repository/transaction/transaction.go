@@ -24,7 +24,7 @@ func (t *TransactionRepository) FindByMonth(year int, month time.Month) ([]domai
 	from := time.Date(year, month, 1, 0, 0, 0, 0, time.UTC)
 	to := from.AddDate(0, 1, 0)
 
-	var transactions []domain.Transaction
+	transactions := make([]domain.Transaction, 0)
 	err := t.Context.DB().Reader().
 		Where("transaction_date >= ? AND transaction_date < ?", from, to).
 		Order("transaction_date ASC").
