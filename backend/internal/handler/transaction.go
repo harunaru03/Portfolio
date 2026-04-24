@@ -44,9 +44,21 @@ func MountTransaction(e *gin.Engine, ctx appctx.AppCtx) {
 	e.POST("/api/v1/transactions", eh.CreateTransaction)
 }
 
-// GetTransactions は支出一覧取得APIのハンドラーです。
+// GetTransactions は収支一覧取得APIのハンドラーです。
 func (h *TransactionHandler) GetTransactions(c *gin.Context) {
-	data, err := h.svc.GetAll()
+	targetDate := c.Query("target_date")
+	if targetDate == "" {
+		response.BadRequestWithMessage(c, "target_dateは必須です（形式: YYYY-MM）。")
+		return
+	}
+
+	t, err := time.Parse("2006-01", targetDate)
+	if err != nil {
+		response.BadRequestWithMessage(c, "target_dateの形式が正しくありません（形式: YYYY-MM）。")
+		return
+	}
+
+	data, err := h.svc.GetByMonth(t.Year(), t.Month())
 	if err != nil {
 		response.InternalServerError(c)
 		return
@@ -79,7 +91,7 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 		Amount:          req.Amount,
 		Type:            req.Type,
 		CategoryID:      req.CategoryID,
-		TransactionDate: date,
+		TransactionDate: domain.Date{Time: date},
 		Memo:            req.Memo,
 	}
 
