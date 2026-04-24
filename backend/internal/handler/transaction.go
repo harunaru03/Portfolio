@@ -83,9 +83,11 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 
 	// 未来日チェック（JSTで比較）
 	jst := pTime.GetLocationJST()
-	today := time.Now().In(jst).Truncate(24 * time.Hour)
-	dateInJST := date.In(jst).Truncate(24 * time.Hour)
-	if dateInJST.After(today) {
+	now := time.Now().In(jst)
+	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, jst)
+	dateInJST := date.In(jst)
+	dateJST := time.Date(dateInJST.Year(), dateInJST.Month(), dateInJST.Day(), 0, 0, 0, 0, jst)
+	if dateJST.After(today) {
 		response.BadRequestWithMessage(c, "日付は本日以前を選択してください。")
 		return
 	}
