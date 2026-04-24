@@ -6,6 +6,7 @@ import (
 
 	"household/internal/platform/appctx"
 	"household/internal/platform/response"
+	pTime "household/internal/platform/time"
 	CategoryRepo "household/internal/repository/category"
 	TransactionRepo "household/internal/repository/transaction"
 	TransactionSvc "household/internal/service/transaction"
@@ -80,8 +81,11 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 		return
 	}
 
-	// 未来日チェック
-	if date.After(time.Now().Truncate(24 * time.Hour)) {
+	// 未来日チェック（JSTで比較）
+	jst := pTime.GetLocationJST()
+	today := time.Now().In(jst).Truncate(24 * time.Hour)
+	dateInJST := date.In(jst).Truncate(24 * time.Hour)
+	if dateInJST.After(today) {
 		response.BadRequestWithMessage(c, "日付は本日以前を選択してください。")
 		return
 	}
