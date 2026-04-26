@@ -37,6 +37,7 @@ async function handleFormSubmit(e, type) {
     // 【バリデーション】未来日の入力をフロントエンドで事前に防ぐ
     const selectedDate = new Date(formData.get('date'));
     const today = new Date();
+    selectedDate.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0); // 今日を判定するために時間の情報を消す
 
     if (selectedDate > today) {
