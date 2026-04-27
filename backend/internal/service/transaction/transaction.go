@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"errors"
+	"time"
 
 	"gorm.io/gorm"
 
@@ -19,7 +20,7 @@ var ErrCategoryTypeMismatch = errors.New("category type mismatch")
 
 // Service は支出に関するビジネスロジックを定義するインターフェースです。
 type Service interface {
-	GetAll() ([]domain.Transaction, error)
+	GetByMonth(year int, month time.Month) ([]domain.Transaction, error)
 	Create(e domain.Transaction) (*domain.Transaction, error)
 }
 
@@ -30,13 +31,12 @@ type TransactionService struct {
 	CategoryRepo categoryDomain.Repository
 }
 
-// GetAll は支出一覧を取得します。
-// TODO: 仮実装なのでフロントエンドが収支一覧画面を作成するときに本実装予定
-func (e *TransactionService) GetAll() ([]domain.Transaction, error) {
-	data, err := e.Repo.FindAll()
+// GetByMonth は指定した年月の収支一覧を取得します。
+func (e *TransactionService) GetByMonth(year int, month time.Month) ([]domain.Transaction, error) {
+	data, err := e.Repo.FindByMonth(year, month)
 	if err != nil {
 		e.Context.Log().Error(log.Args{
-			Message:    "支出一覧取得に失敗しました。",
+			Message:    "収支一覧取得に失敗しました。",
 			StackTrace: err.Error(),
 		})
 		return nil, err

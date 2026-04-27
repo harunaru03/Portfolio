@@ -6,6 +6,7 @@ import (
 
 	"household/internal/platform/appctx"
 	"household/internal/platform/response"
+	pTime "household/internal/platform/time"
 	CategoryRepo "household/internal/repository/category"
 	TransactionRepo "household/internal/repository/transaction"
 	TransactionSvc "household/internal/service/transaction"
@@ -44,9 +45,21 @@ func MountTransaction(e *gin.Engine, ctx appctx.AppCtx) {
 	e.POST("/api/v1/transactions", eh.CreateTransaction)
 }
 
-// GetTransactions は支出一覧取得APIのハンドラーです。
+// GetTransactions は収支一覧取得APIのハンドラーです。
 func (h *TransactionHandler) GetTransactions(c *gin.Context) {
-	data, err := h.svc.GetAll()
+	targetDate := c.Query("target_date")
+	if targetDate == "" {
+		response.BadRequestWithMessage(c, "target_dateは必須です（形式: YYYY-MM）。")
+		return
+	}
+
+	t, err := time.Parse("2006-01", targetDate)
+	if err != nil {
+		response.BadRequestWithMessage(c, "target_dateの形式が正しくありません（形式: YYYY-MM）。")
+		return
+	}
+
+	data, err := h.svc.GetByMonth(t.Year(), t.Month())
 	if err != nil {
 		response.InternalServerError(c)
 		return
@@ -68,8 +81,13 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 		return
 	}
 
-	// 未来日チェック
-	if date.After(time.Now().Truncate(24 * time.Hour)) {
+	// 未来日チェック（JSTで比較）
+	jst := pTime.GetLocationJST()
+	now := time.Now().In(jst)
+	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, jst)
+	dateInJST := date.In(jst)
+	dateJST := time.Date(dateInJST.Year(), dateInJST.Month(), dateInJST.Day(), 0, 0, 0, 0, jst)
+	if dateJST.After(today) {
 		response.BadRequestWithMessage(c, "日付は本日以前を選択してください。")
 		return
 	}
@@ -79,7 +97,7 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 		Amount:          req.Amount,
 		Type:            req.Type,
 		CategoryID:      req.CategoryID,
-		TransactionDate: date,
+		TransactionDate: domain.Date{Time: date},
 		Memo:            req.Memo,
 	}
 
