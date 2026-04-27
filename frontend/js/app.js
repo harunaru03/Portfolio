@@ -106,16 +106,22 @@ async function navigate(page = 'input') {
     // 収支の結果画面を表示する
     switch(page) {
         case 'result':
-            app.innerHTML = Result.renderResult();
-            return;
+            app.innerHTML = Result.renderResultScreenList();
+            break;
 
     // 画面の見た目（HTML）をViewから取得して反映
         case 'input':
         default:
-            app.innerHTML = View.renderSwitchScreen();
+            app.innerHTML = View.renderInputScreen();
+            await setupInputPage();
             break;
     }
-    
+}
+
+/**
+ * 入力画面に必要なデータ（カテゴリーなど）を準備する
+ */
+async function setupInputPage() {
     try {
         // モデルからカテゴリー一覧を取得
         const categories = await getCategories();
@@ -141,3 +147,4 @@ initEvents();
 
 // pencilボタンなどからの呼び出しに対応するためグローバルに公開
 window.navigate = navigate;
+
