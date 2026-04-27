@@ -3,7 +3,7 @@ export const View = {
      * アプリ全体の土台（タブ切り替え部分を含む）を組み立てる
      * @returns {string} HTML文字列
      */
-    renderHome: () => {
+    renderSwitchScreen: () => {
         return `
             <div class="container__box">
 <!-- ラジオボタンを使って支出/収入の画面タブ切り替えを実現 -->

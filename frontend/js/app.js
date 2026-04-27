@@ -98,7 +98,7 @@ function initEvents() {
 /**
  * 画面のページ遷移を担当する
  */
-async function navigate(page = 'home') {
+async function navigate(page = 'input') {
 
     // 画面をクリア
     app.innerHTML = '';
@@ -110,9 +110,9 @@ async function navigate(page = 'home') {
             return;
 
     // 画面の見た目（HTML）をViewから取得して反映
-        case 'home':
+        case 'input':
         default:
-            app.innerHTML = View.renderHome();
+            app.innerHTML = View.renderSwitchScreen();
             break;
     }
     
