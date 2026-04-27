@@ -1,5 +1,6 @@
 import { View } from './views/input_screen.js';
 import { getCategories, sendInput } from './models/API.js';
+import { Result } from './views/result_screen.js';
 
 const app = document.getElementById('app');
 
@@ -96,9 +97,23 @@ function initEvents() {
 /**
  * 画面のページ遷移を担当する
  */
-async function navigate() {
+async function navigate(page = 'home') {
+
+    // 画面をクリア
+    app.innerHTML = '';
+
+    // 収支の結果画面を表示する
+    switch(page) {
+        case 'result':
+            app.innerHTML = Result.renderResult();
+            return;
+
     // 画面の見た目（HTML）をViewから取得して反映
-    app.innerHTML = View.renderHome();
+        case 'home':
+        default:
+            app.innerHTML = View.renderHome();
+            break;
+    }
     
     try {
         // モデルからカテゴリー一覧を取得
