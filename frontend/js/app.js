@@ -111,9 +111,11 @@ async function navigate(page = 'input') {
 
     // 画面の見た目（HTML）をViewから取得して反映
         case 'input':
-        default:
             app.innerHTML = View.renderInputScreen();
             await setupInputPage();
+            break;
+        default:
+            app.innerHTML = '';
             break;
     }
 }
