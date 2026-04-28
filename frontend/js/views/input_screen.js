@@ -3,7 +3,7 @@ export const View = {
      * アプリ全体の土台（タブ切り替え部分を含む）を組み立てる
      * @returns {string} HTML文字列
      */
-    renderHome: () => {
+    renderInputScreen: () => {
         return `
             <div class="container__box">
 <!-- ラジオボタンを使って支出/収入の画面タブ切り替えを実現 -->
@@ -14,8 +14,8 @@ export const View = {
                     <label for="income">収入</label>
                 </div>
 <!-- 支出と収入それぞれのフォームを入れ子で呼び出し -->
-                ${View.renderExpenses()}
-                ${View.renderIncome()}
+                ${View.renderInputExpensesForm()}
+                ${View.renderInputIncomeForm()}
             </div>
         `;
     },
@@ -23,7 +23,7 @@ export const View = {
     /** 
      * 支出入力フォームのパーツ
      */
-    renderExpenses: () => {
+    renderInputExpensesForm: () => {
         return `
             <div class="content__item--expense">
                 <form id="content__item--expense-form">
@@ -65,7 +65,7 @@ export const View = {
     /** 
      * 収入入力フォームのパーツ
      */
-    renderIncome: () => {
+    renderInputIncomeForm: () => {
         return `
             <div class="content__item--income">
                 <form class="content__item--income-form">

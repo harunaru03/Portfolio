@@ -1,5 +1,6 @@
 import { View } from './views/input_screen.js';
 import { getCategories, sendInput } from './models/API.js';
+import { Result } from './views/result_screen.js';
 
 const app = document.getElementById('app');
 
@@ -37,7 +38,7 @@ async function handleFormSubmit(e, type) {
     // 【バリデーション】未来日の入力をフロントエンドで事前に防ぐ
     const selectedDate = new Date(formData.get('date'));
     const today = new Date();
-    selectedDate.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0); //JSTで+9時間されるため0時0分0秒にする
     today.setHours(0, 0, 0, 0); // 今日を判定するために時間の情報を消す
 
     if (selectedDate > today) {
@@ -97,10 +98,32 @@ function initEvents() {
 /**
  * 画面のページ遷移を担当する
  */
-async function navigate() {
+async function navigate(page = 'input') {
+
+    // 画面をクリア
+    app.innerHTML = '';
+
+    // 収支の結果画面を表示する
+    switch(page) {
+        case 'result':
+            app.innerHTML = Result.renderResultScreenList();
+            break;
+
     // 画面の見た目（HTML）をViewから取得して反映
-    app.innerHTML = View.renderHome();
-    
+        case 'input':
+            app.innerHTML = View.renderInputScreen();
+            await setupInputPage();
+            break;
+        default:
+            app.innerHTML = '';
+            break;
+    }
+}
+
+/**
+ * 入力画面に必要なデータ（カテゴリーなど）を準備する
+ */
+async function setupInputPage() {
     try {
         // モデルからカテゴリー一覧を取得
         const categories = await getCategories();
@@ -126,3 +149,4 @@ initEvents();
 
 // pencilボタンなどからの呼び出しに対応するためグローバルに公開
 window.navigate = navigate;
+
