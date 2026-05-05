@@ -1,6 +1,7 @@
 import { View } from './js/views/input_screen.js';
 import { getCategories, sendInput } from './api/API.js';
 import { Result } from './js/views/result_screen.js';
+import './assets/global.css';
 
 const app = document.getElementById('app');
 
