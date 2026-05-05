@@ -35,13 +35,13 @@ services:
     # Frontend
     frontend:
         build:
-            context: ./frontend
+            context: ./frontend-vue
             dockerfile: Dockerfile
         container_name: household-frontend
         ports:
             - "3000:3000"
         volumes:
-            - ./frontend:/app
+            - ./frontend-vue:/app
             # node_modulesをローカルの空フォルダで上書きしないためのテクニック
             - /app/node_modules
         environment:
