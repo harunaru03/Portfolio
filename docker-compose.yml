@@ -35,7 +35,7 @@ services:
     # Frontend
     frontend:
         build:
-            context: ./frontend
+            context: ./frontend-vue
             dockerfile: Dockerfile
         container_name: household-frontend
         ports:

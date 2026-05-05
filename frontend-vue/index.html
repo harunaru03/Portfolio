@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>家計簿アプリ</title>
+        <meta name="description" content="家計簿アプリ">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="src/assets/global.css">
+    </head>
+    <body>
+        <div class="container__btn">
+            <button onclick="navigate('result')" class="content__floating-btn">収支参照</button>
+            <button onclick="navigate('input')" class="content__floating-btn">
+                <img src="src/assets/pencil.png" alt="入力" class="content__btn--input">
+            </button>
+        </div>
+        <div id="app"></div>
+        <script src="src/main.js" type="module"></script>
+    </body>
+</html>
