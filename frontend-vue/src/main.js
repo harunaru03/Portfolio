@@ -1,5 +1,5 @@
 import { View } from './js/views/input_screen.js';
-import { getCategories, sendInput } from './api/API.js';
+import { getCategories, sendInput } from './api/api.js';
 import { Result } from './js/views/result_screen.js';
 import './assets/global.css';
 

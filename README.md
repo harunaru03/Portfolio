@@ -65,4 +65,4 @@
 - @rysakamo
  - 担当: バックエンド開発(Go/Gin)、 DB設計(PostgreSQL)、インフラ構築(Docker)
 - @harunaru03
- - 担当: フロントエンド開発(Vanilla JS)、UI/UXデザイン
+ - 担当: フロントエンド開発(Vue,Javascript)、UI/UXデザイン
